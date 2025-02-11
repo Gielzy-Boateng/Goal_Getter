@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goal_getter_app/core/locators/locators.dart';
 import 'package:goal_getter_app/core/route/routes.dart';
 import 'package:goal_getter_app/core/theme/app_theme.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
+import 'package:goal_getter_app/features/auth/cubit/register_cubit.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => RegisterCubit(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
   WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();
 }
