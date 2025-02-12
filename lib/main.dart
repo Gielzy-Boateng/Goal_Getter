@@ -5,22 +5,27 @@ import 'package:goal_getter_app/core/locators/locators.dart';
 import 'package:goal_getter_app/core/route/routes.dart';
 import 'package:goal_getter_app/core/theme/app_theme.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
+import 'package:goal_getter_app/features/auth/cubit/login_cubit.dart';
 import 'package:goal_getter_app/features/auth/cubit/register_cubit.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  setUpLocator();
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => RegisterCubit(),
         ),
+        BlocProvider(
+          create: (_) => LoginCubit(),
+        ),
       ],
       child: const MyApp(),
     ),
   );
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  setUpLocator();
 }
 
 class MyApp extends StatelessWidget {

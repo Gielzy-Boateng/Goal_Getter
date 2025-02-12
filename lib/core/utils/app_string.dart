@@ -15,6 +15,7 @@ class AppString {
   static const internetNotFound = 'Internet not found';
   static const login = 'Login';
   static const accountCreated = 'Account Created';
+  static const loginSuccess = 'Logged in Successfully';
 
   static const searchByName = 'Search by name';
   static const notRegistered = "Don't have an account? ";
