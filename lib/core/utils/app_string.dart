@@ -25,7 +25,7 @@ class AppString {
   static const goals = 'Vision Board';
 
   // static const todo = 'To Do';
-  static const addTodo = 'Add ToDo';
+  static const addTodo = 'Plan Your Day';
   static const editTodo = 'Edit Todo';
   static const title = 'Title';
   static const description = 'Description';
