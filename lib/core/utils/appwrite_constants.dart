@@ -3,4 +3,5 @@ class AppWriteConstants {
   static const projectId = '67a6a317001140196d08';
   static const databaseId = '67a6a467003a0f8f0804';
   static const userCollectionId = '67a6a4b70021346644d2';
+  static const todoCollectionId = '67ac913f003e2f0c782e';
 }

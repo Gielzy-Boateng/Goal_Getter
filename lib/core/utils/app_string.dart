@@ -22,7 +22,7 @@ class AppString {
   static const loggedIn = "Already have an account? ";
   static const noDataFound = 'No data found';
 
-  static const todo = 'List of goals';
+  static const goals = 'Vision Board';
 
   // static const todo = 'To Do';
   static const addTodo = 'Add ToDo';

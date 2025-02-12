@@ -26,4 +26,9 @@ final GoRouter router = GoRouter(routes: [
     name: RouteNames.goals,
     builder: (context, state) => const GoalsView(),
   ),
+  GoRoute(
+    path: '/addGoals',
+    name: RouteNames.addGoals,
+    builder: (context, state) => const GoalsView(),
+  ),
 ]);

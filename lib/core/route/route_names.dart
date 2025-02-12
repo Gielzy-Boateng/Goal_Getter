@@ -3,4 +3,5 @@ class RouteNames {
   static const register = 'register';
   static const login = 'login';
   static const goals = 'goals';
+  static const addGoals = 'addGoals';
 }
