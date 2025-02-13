@@ -10,7 +10,7 @@ class SplashCubit extends Cubit<SplashState> {
   final AuthRepository _authRepository = locator<AuthRepository>();
 
   void checkSession() async {
-    emit(SplashInitial());
+    emit(SplashLoading());
 
     final res = await _authRepository.checkSession();
 

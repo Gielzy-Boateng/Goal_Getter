@@ -7,6 +7,7 @@ import 'package:goal_getter_app/core/theme/app_theme.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
 import 'package:goal_getter_app/features/auth/cubit/login_cubit.dart';
 import 'package:goal_getter_app/features/auth/cubit/register_cubit.dart';
+import 'package:goal_getter_app/features/goals/cubit/goals_cubit.dart';
 import 'package:goal_getter_app/features/splash/cubit/splash_cubit.dart';
 
 void main() async {
@@ -20,6 +21,7 @@ void main() async {
         BlocProvider(create: (_) => RegisterCubit()),
         BlocProvider(create: (_) => LoginCubit()),
         BlocProvider(create: (_) => SplashCubit()),
+        BlocProvider(create: (_) => GoalsCubit()),
       ],
       child: const MyApp(),
     ),

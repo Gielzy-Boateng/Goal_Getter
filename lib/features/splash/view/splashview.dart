@@ -50,8 +50,8 @@ class _SplashViewState extends State<SplashView> {
           builder: (context, state) {
             return Image.asset(
               AppImageUrl.logo,
-              width: 150,
-              height: 150,
+              width: 100,
+              height: 100,
             );
           },
         ),

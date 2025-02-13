@@ -31,7 +31,7 @@ class AppString {
   static const description = 'Description';
   static const add = 'Add';
   static const update = 'Update';
-  static const todoCreated = 'Todo created successfully';
+  static const todoCreated = 'Goal created successfully';
   static const todoUpdated = 'Todo updated successfully';
   static const todoDeleted = 'Todo deleted successfully';
   static const deletedTodo = 'Delete Todo';

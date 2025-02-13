@@ -1,11 +1,11 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:goal_getter_app/core/route/route_names.dart';
-import 'package:goal_getter_app/core/route/routes.dart';
 import 'package:goal_getter_app/core/theme/app_color.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
+import 'package:goal_getter_app/features/goals/cubit/goals_cubit.dart';
 
 class GoalsView extends StatefulWidget {
   const GoalsView({super.key});
@@ -15,6 +15,12 @@ class GoalsView extends StatefulWidget {
 }
 
 class _GoalsViewState extends State<GoalsView> {
+  @override
+  void initState() {
+    context.read<GoalsCubit>().fetchGoals();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +35,36 @@ class _GoalsViewState extends State<GoalsView> {
               icon: const Icon(Icons.person))
         ],
       ),
-      body: Container(),
+      body: BlocBuilder<GoalsCubit, GoalsState>(
+        builder: (context, state) {
+          if (state is GoalsFetchLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is GoalsFetchSuccess) {
+            final goals = state.goalsModel;
+            return goals.isNotEmpty
+                ? ListView.builder(
+                    itemCount: goals.length,
+                    itemBuilder: (context, index) {
+                      final goal = goals[index];
+                      return ListTile(
+                        title: Text(goal.title),
+                        subtitle: Text(goal.description),
+                        leading: CircleAvatar(
+                          radius: 10,
+                          backgroundColor: goal.isCompleted
+                              ? AppColor.snackBarGreen
+                              : AppColor.snackBarRed,
+                        ),
+                      );
+                    },
+                  )
+                : const Text(AppString.noDataFound);
+          } else if (state is GoalsError) {
+            return Text(state.error);
+          }
+          return Container();
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.pushNamed(RouteNames.addGoals);

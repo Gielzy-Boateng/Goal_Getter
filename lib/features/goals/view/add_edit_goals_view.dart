@@ -1,9 +1,14 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter/widgets.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
+import 'package:goal_getter_app/core/utils/custom_snackbar.dart';
+import 'package:goal_getter_app/core/utils/full_screen_dialog_loader.dart';
 import 'package:goal_getter_app/core/widgets/custom_text_form_field.dart';
 import 'package:goal_getter_app/core/widgets/rounded_elevated_button.dart';
+import 'package:goal_getter_app/features/goals/cubit/goals_cubit.dart';
+// import 'package:goal_getter_app/main.dart';
 
 class AddEditGoalsView extends StatefulWidget {
   const AddEditGoalsView({super.key});
@@ -40,7 +45,13 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
   }
 
   void _submit() {
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      final title = _titleEditingController.text;
+      final description = _descriptionEditingController.text;
+      context
+          .read<GoalsCubit>()
+          .addGoal(title: title, description: description, isCompleted: false);
+    }
   }
 
   @override
@@ -51,47 +62,63 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              CustomTextFormField(
-                  controller: _titleEditingController,
-                  validator: (val) {
-                    if (val!.isEmpty) {
-                      return AppString.required;
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.text,
-                  obscureText: false,
-                  hintText: AppString.title,
-                  suffix: null),
-              const SizedBox(
-                height: 10,
+        child: BlocConsumer<GoalsCubit, GoalsState>(
+          listener: (context, state) {
+            if (state is GoalsAddEditDeleteLoading) {
+              FullScreenDialogLoader.show(context);
+            } else if (state is GoalsAddEditDeleteSuccess) {
+              FullScreenDialogLoader.cancel(context);
+              clearText();
+              CustomSnackbar.showSuccess(context, AppString.todoCreated);
+            } else if (state is GoalsError) {
+              FullScreenDialogLoader.cancel(context);
+              CustomSnackbar.showError(context, state.error);
+            }
+          },
+          builder: (context, state) {
+            return Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  CustomTextFormField(
+                      controller: _titleEditingController,
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return AppString.required;
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.text,
+                      obscureText: false,
+                      hintText: AppString.title,
+                      suffix: null),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextFormField(
+                      controller: _descriptionEditingController,
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return AppString.required;
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.text,
+                      obscureText: false,
+                      hintText: AppString.description,
+                      suffix: null),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RoundedElevatedButton(
+                      buttonText: AppString.add,
+                      onPressed: () {
+                        _submit();
+                      })
+                ],
               ),
-              CustomTextFormField(
-                  controller: _descriptionEditingController,
-                  validator: (val) {
-                    if (val!.isEmpty) {
-                      return AppString.required;
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.text,
-                  obscureText: false,
-                  hintText: AppString.description,
-                  suffix: null),
-              const SizedBox(
-                height: 10,
-              ),
-              RoundedElevatedButton(
-                  buttonText: AppString.add,
-                  onPressed: () {
-                    _submit();
-                  })
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
