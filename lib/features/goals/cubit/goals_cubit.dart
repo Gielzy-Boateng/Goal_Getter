@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:goal_getter_app/core/error/failure.dart';
 import 'package:goal_getter_app/core/locators/locators.dart';
 import 'package:goal_getter_app/core/utils/storage_key.dart';
 import 'package:goal_getter_app/core/utils/storage_service.dart';
@@ -39,5 +38,22 @@ class GoalsCubit extends Cubit<GoalsState> {
 
     res.fold((failure) => emit(GoalsError(error: failure.message)),
         (goalsModel) => emit(GoalsFetchSuccess(goalsModel: goalsModel)));
+  }
+
+  void editGoal(
+      {required String documentId,
+      required String title,
+      required String description,
+      required bool isCompleted}) async {
+    emit(GoalsAddEditDeleteLoading());
+
+    final res = await _goalsRepository.editGoal(
+        documentId: documentId,
+        title: title,
+        description: description,
+        isCompleted: isCompleted);
+
+    res.fold((failure) => emit(GoalsError(error: failure.message)),
+        (document) => emit(GoalsAddEditDeleteSuccess()));
   }
 }

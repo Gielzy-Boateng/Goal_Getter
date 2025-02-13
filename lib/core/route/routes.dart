@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:goal_getter_app/core/route/route_names.dart';
+import 'package:goal_getter_app/data/model/goals_model.dart';
 import 'package:goal_getter_app/features/auth/view/login_view.dart';
 import 'package:goal_getter_app/features/auth/view/register_view.dart';
 import 'package:goal_getter_app/features/goals/view/add_edit_goals_view.dart';
@@ -32,4 +33,12 @@ final GoRouter router = GoRouter(routes: [
     name: RouteNames.addGoals,
     builder: (context, state) => const AddEditGoalsView(),
   ),
+  GoRoute(
+      path: '/editGoal',
+      name: RouteNames.editGoal,
+      builder: (context, state) {
+        final goalsModel = state.extra as GoalsModel;
+        return AddEditGoalsView(goalsModel: goalsModel);
+        //  const AddEditGoalsView();
+      }),
 ]);

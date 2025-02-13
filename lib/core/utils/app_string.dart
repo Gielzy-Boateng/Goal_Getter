@@ -26,7 +26,7 @@ class AppString {
 
   // static const todo = 'To Do';
   static const addTodo = 'Plan Your Day';
-  static const editTodo = 'Edit Todo';
+  static const editTodo = 'Update your Plan';
   static const title = 'Title';
   static const description = 'Description';
   static const add = 'Add';

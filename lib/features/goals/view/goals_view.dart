@@ -47,6 +47,8 @@ class _GoalsViewState extends State<GoalsView> {
                     itemBuilder: (context, index) {
                       final goal = goals[index];
                       return ListTile(
+                        onTap: () =>
+                            context.pushNamed(RouteNames.editGoal, extra: goal),
                         title: Text(goal.title),
                         subtitle: Text(goal.description),
                         leading: CircleAvatar(

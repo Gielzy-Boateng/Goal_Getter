@@ -18,6 +18,12 @@ abstract interface class IGoalsRepository {
       required String description,
       required bool isCompleted});
 
+  Future<Either<Failure, Document>> editGoal(
+      {required String documentId,
+      required String title,
+      required String description,
+      required bool isCompleted});
+
   Future<Either<Failure, List<GoalsModel>>> fetchGoal({required String userId});
 }
 
@@ -74,6 +80,34 @@ class GoalsRepository implements IGoalsRepository {
         List<GoalsModel> goalsList =
             d.map((e) => GoalsModel.fromMap(e['data'])).toList();
         return right(goalsList);
+      } else {
+        return left(Failure(AppString.internetNotFound));
+      }
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Document>> editGoal(
+      {required String documentId,
+      required String title,
+      required String description,
+      required bool isCompleted}) async {
+    try {
+      if (await _internetConnectionChecker.hasConnection) {
+        Document document = await _appwriteProvider.database!.updateDocument(
+            databaseId: AppWriteConstants.databaseId,
+            collectionId: AppWriteConstants.todoCollectionId,
+            documentId: documentId,
+            data: {
+              "title": title,
+              "description": description,
+              "isCompleted": isCompleted,
+            });
+        return right(document);
       } else {
         return left(Failure(AppString.internetNotFound));
       }

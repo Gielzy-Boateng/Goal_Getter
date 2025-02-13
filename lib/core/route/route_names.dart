@@ -4,4 +4,5 @@ class RouteNames {
   static const login = 'login';
   static const goals = 'goals';
   static const addGoals = 'addGoals';
+  static const editGoal = 'editGoal';
 }
