@@ -32,11 +32,11 @@ class AppString {
   static const add = 'Add';
   static const update = 'Update';
   static const todoCreated = 'Goal created successfully';
-  static const todoUpdated = 'Todo updated successfully';
-  static const todoDeleted = 'Todo deleted successfully';
-  static const deletedTodo = 'Delete Todo';
+  static const todoUpdated = 'Goal updated successfully';
+  static const todoDeleted = 'Goal deleted successfully';
+  static const deletedTodo = 'Delete Goal';
   static const areYouSureToDeleteTodo =
-      'Are you sure you want to deleted todo?';
+      'Are you sure you want to delete your goal?';
   static const profile = 'Profile';
   static const logout = 'Logout';
   static const profileUpdated = 'ProfileUpdated';

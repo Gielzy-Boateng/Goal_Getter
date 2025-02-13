@@ -56,4 +56,16 @@ class GoalsCubit extends Cubit<GoalsState> {
     res.fold((failure) => emit(GoalsError(error: failure.message)),
         (document) => emit(GoalsAddEditDeleteSuccess()));
   }
+
+  void deleteGoal({required String documentId}) async {
+    emit(GoalsAddEditDeleteLoading());
+
+    final res = await _goalsRepository.deleteGoal(documentId: documentId);
+
+    res.fold(
+        (failure) => emit(GoalsError(error: failure.message)),
+        (goalsModel) => emit(
+              GoalsAddEditDeleteSuccess(),
+            ));
+  }
 }

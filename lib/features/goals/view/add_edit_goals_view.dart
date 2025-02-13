@@ -1,8 +1,9 @@
 // import 'package:flutter/foundation.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:goal_getter_app/core/route/routes.dart';
+// import 'package:goal_getter_app/core/route/routes.dart';
 import 'package:goal_getter_app/core/theme/app_color.dart';
 // import 'package:flutter/widgets.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
@@ -69,6 +70,19 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
     }
   }
 
+  void _deleteGoal({required String documentId}) {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.warning,
+        animType: AnimType.rightSlide,
+        title: AppString.deletedTodo,
+        desc: AppString.areYouSureToDeleteTodo,
+        btnCancelOnPress: () {},
+        btnOkOnPress: () {
+          context.read<GoalsCubit>().deleteGoal(documentId: documentId);
+        }).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +93,7 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
           if (widget.goalsModel != null)
             IconButton(
                 onPressed: () {
-                  //delete goal
+                  _deleteGoal(documentId: widget.goalsModel!.id);
                 },
                 icon: const Icon(
                   Icons.delete,
@@ -129,6 +143,7 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
                     height: 10,
                   ),
                   CustomTextFormField(
+                      maxLines: 6,
                       controller: _descriptionEditingController,
                       validator: (val) {
                         if (val!.isEmpty) {

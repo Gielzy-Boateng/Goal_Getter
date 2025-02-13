@@ -25,6 +25,8 @@ abstract interface class IGoalsRepository {
       required bool isCompleted});
 
   Future<Either<Failure, List<GoalsModel>>> fetchGoal({required String userId});
+
+  Future<Either<Failure, dynamic>> deleteGoal({required String documentId});
 }
 
 class GoalsRepository implements IGoalsRepository {
@@ -108,6 +110,28 @@ class GoalsRepository implements IGoalsRepository {
               "isCompleted": isCompleted,
             });
         return right(document);
+      } else {
+        return left(Failure(AppString.internetNotFound));
+      }
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> deleteGoal({
+    required String documentId,
+  }) async {
+    try {
+      if (await _internetConnectionChecker.hasConnection) {
+        var response = await _appwriteProvider.database!.deleteDocument(
+            databaseId: AppWriteConstants.databaseId,
+            collectionId: AppWriteConstants.todoCollectionId,
+            documentId: documentId);
+
+        return right(response);
       } else {
         return left(Failure(AppString.internetNotFound));
       }

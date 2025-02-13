@@ -29,10 +29,17 @@ class _GoalsViewState extends State<GoalsView> {
         backgroundColor: AppColor.appBarColor,
         actions: [
           IconButton(
-              onPressed: () {
-                //move to profile screen
-              },
-              icon: const Icon(Icons.person))
+            onPressed: () {
+              context.read<GoalsCubit>().fetchGoals();
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
+            onPressed: () {
+              //move to profile screen
+            },
+            icon: const Icon(Icons.person),
+          ),
         ],
       ),
       body: BlocBuilder<GoalsCubit, GoalsState>(
@@ -42,27 +49,67 @@ class _GoalsViewState extends State<GoalsView> {
           } else if (state is GoalsFetchSuccess) {
             final goals = state.goalsModel;
             return goals.isNotEmpty
-                ? ListView.builder(
-                    itemCount: goals.length,
-                    itemBuilder: (context, index) {
-                      final goal = goals[index];
-                      return ListTile(
-                        onTap: () =>
-                            context.pushNamed(RouteNames.editGoal, extra: goal),
-                        title: Text(goal.title),
-                        subtitle: Text(goal.description),
-                        leading: CircleAvatar(
-                          radius: 10,
-                          backgroundColor: goal.isCompleted
-                              ? AppColor.snackBarGreen
-                              : AppColor.snackBarRed,
-                        ),
-                      );
-                    },
+                ? Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    child: ListView.separated(
+                      itemCount: goals.length,
+                      itemBuilder: (context, index) {
+                        final goal = goals[index];
+                        return ListTile(
+                          onTap: () => context.pushNamed(RouteNames.editGoal,
+                              extra: goal),
+                          title: Column(
+                            children: [
+                              Text(goal.title.toUpperCase(),
+                                  // textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+
+                                        // color: AppColor.appColor,
+                                      )),
+                              const SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          ),
+                          subtitle: Text(goal.description),
+                          leading: CircleAvatar(
+                            radius: 10,
+                            backgroundColor: goal.isCompleted
+                                ? AppColor.snackBarGreen
+                                : AppColor.snackBarRed,
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          color: AppColor.whiteColor,
+                          thickness: 0.5,
+                        );
+                      },
+                    ),
                   )
-                : const Text(AppString.noDataFound);
+                : const Center(
+                    child: Text(
+                    AppString.noDataFound,
+                    style: TextStyle(
+                        // color: AppColor.snackBarRed,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ));
           } else if (state is GoalsError) {
-            return Text(state.error);
+            return Center(
+                child: Text(
+              "${state.error} ⚠️",
+              style: const TextStyle(
+                  // color: AppColor.snackBarRed,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ));
           }
           return Container();
         },

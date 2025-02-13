@@ -11,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.obscureText,
     required this.hintText,
     required this.suffix,
+    this.maxLines,
   });
   final TextEditingController controller;
   final String? Function(String? val) validator;
@@ -18,10 +19,12 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText;
   final String hintText;
   final Widget? suffix;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       obscureText: obscureText,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
