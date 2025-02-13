@@ -5,4 +5,5 @@ class RouteNames {
   static const goals = 'goals';
   static const addGoals = 'addGoals';
   static const editGoal = 'editGoal';
+  static const profileView = 'profileView';
 }

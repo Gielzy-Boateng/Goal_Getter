@@ -139,6 +139,7 @@ class _RegisterViewState extends State<RegisterView> {
                           return null;
                         },
                         keyboardType: TextInputType.visiblePassword,
+                        maxLines: 1,
                         obscureText: !isPassWordVisible,
                         hintText: AppString.password,
                         suffix: InkWell(

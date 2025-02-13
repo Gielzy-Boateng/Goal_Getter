@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:goal_getter_app/core/route/route_names.dart';
 import 'package:goal_getter_app/core/theme/app_color.dart';
 import 'package:goal_getter_app/core/utils/app_string.dart';
+// import 'package:goal_getter_app/features/auth/cubit/logout_cubit.dart';
 import 'package:goal_getter_app/features/goals/cubit/goals_cubit.dart';
 
 class GoalsView extends StatefulWidget {
@@ -36,7 +37,7 @@ class _GoalsViewState extends State<GoalsView> {
           ),
           IconButton(
             onPressed: () {
-              //move to profile screen
+              context.pushNamed(RouteNames.profileView);
             },
             icon: const Icon(Icons.person),
           ),

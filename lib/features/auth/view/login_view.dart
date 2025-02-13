@@ -110,6 +110,7 @@ class _LoginViewState extends State<LoginView> {
                             return null;
                           },
                           keyboardType: TextInputType.visiblePassword,
+                          maxLines: 1,
                           obscureText: !isPassWordVisible,
                           hintText: AppString.password,
                           suffix: InkWell(

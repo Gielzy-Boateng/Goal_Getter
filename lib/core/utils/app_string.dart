@@ -40,4 +40,5 @@ class AppString {
   static const profile = 'Profile';
   static const logout = 'Logout';
   static const profileUpdated = 'ProfileUpdated';
+  static const areYouSureYouWantToLogOut = 'Are You Sure You Want To Logout?';
 }
