@@ -64,7 +64,7 @@ class _LoginViewState extends State<LoginView> {
 
                   _storageService.setValue(
                       StorageKey.sessionId, state.session.$id);
-                  context.goNamed(RouteNames.goals);
+                  context.goNamed(RouteNames.homePage);
                 } else if (state is LoginInFailure) {
                   FullScreenDialogLoader.cancel(context);
                   CustomSnackbar.showError(context, state.error);

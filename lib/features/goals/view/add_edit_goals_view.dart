@@ -78,6 +78,7 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
         title: AppString.deletedTodo,
         desc: AppString.areYouSureToDeleteTodo,
         btnCancelOnPress: () {},
+        btnOkText: 'Yes',
         btnOkOnPress: () {
           context.read<GoalsCubit>().deleteGoal(documentId: documentId);
         }).show();
@@ -110,7 +111,9 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
             } else if (state is GoalsAddEditDeleteSuccess) {
               FullScreenDialogLoader.cancel(context);
               clearText();
-              if (widget.goalsModel == null) {
+              if (state.isDeleted) {
+                CustomSnackbar.showSuccess(context, AppString.todoDeleted);
+              } else if (widget.goalsModel == null) {
                 CustomSnackbar.showSuccess(context, AppString.todoCreated);
               } else {
                 CustomSnackbar.showSuccess(context, AppString.todoUpdated);
@@ -143,7 +146,7 @@ class _AddEditGoalsViewState extends State<AddEditGoalsView> {
                     height: 10,
                   ),
                   CustomTextFormField(
-                      maxLines: 6,
+                      maxLines: 4,
                       controller: _descriptionEditingController,
                       validator: (val) {
                         if (val!.isEmpty) {

@@ -8,7 +8,10 @@ final class GoalsAddEditDeleteLoading extends GoalsState {}
 
 final class GoalsFetchLoading extends GoalsState {}
 
-final class GoalsAddEditDeleteSuccess extends GoalsState {}
+final class GoalsAddEditDeleteSuccess extends GoalsState {
+  final bool isDeleted;
+  GoalsAddEditDeleteSuccess({this.isDeleted = false});
+}
 
 final class GoalsFetchSuccess extends GoalsState {
   final List<GoalsModel> goalsModel;

@@ -39,7 +39,7 @@ class _SplashViewState extends State<SplashView> {
             }
             if (state is SplashSuccess) {
               FullScreenDialogLoader.cancel(context);
-              context.goNamed(RouteNames.homePage);
+              context.goNamed(RouteNames.goals);
             }
             if (state is SplashError) {
               FullScreenDialogLoader.cancel(context);

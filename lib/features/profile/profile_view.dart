@@ -12,6 +12,7 @@ import 'package:goal_getter_app/core/utils/custom_snackbar.dart';
 // import 'package:goal_getter_app/core/widgets/rounded_elevated_button.dart';
 import 'package:goal_getter_app/features/auth/cubit/get_user_cubit.dart';
 import 'package:goal_getter_app/features/auth/cubit/logout_cubit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -21,6 +22,18 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  void _launchUrl(BuildContext context) async {
+    final Uri url = Uri.parse('https://desmond-code.vercel.app');
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
+    } else {
+      if (!context.mounted) return;
+
+      CustomSnackbar.showError(context, 'Could not lauch the website');
+    }
+  }
+
   void _logout() {
     AwesomeDialog(
         context: context,
@@ -41,6 +54,8 @@ class _ProfileViewState extends State<ProfileView> {
     context.read<GetUserCubit>().fetchUser();
     super.initState();
   }
+
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +163,31 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       )
                     ],
+                  ),
+                  const Spacer(),
+                  // const Text('Designed by Juizy code'),
+                  const Text(
+                    '\u00A9 2025 \u2022 Designed by JuizyCode',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  MouseRegion(
+                    onEnter: (_) => setState(() {
+                      isHovered = true;
+                    }),
+                    onExit: (_) => setState(() {
+                      isHovered = false;
+                    }),
+                    child: TextButton(
+                      onPressed: () {
+                        _launchUrl(context);
+                      },
+                      child: Text(
+                        'Visit our website @Juizycode.com',
+                        style: TextStyle(
+                            color: isHovered ? Colors.blue : Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   )
                 ],
               ),

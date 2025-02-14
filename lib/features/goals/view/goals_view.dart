@@ -1,4 +1,6 @@
 // import 'package:flutter/foundation.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +18,25 @@ class GoalsView extends StatefulWidget {
 }
 
 class _GoalsViewState extends State<GoalsView> {
+  // final Random random = Random();
+
+  // Color getRandomColor() {
+  //   return Color.fromARGB(
+  //     255,
+  //     random.nextInt(256),
+  //     random.nextInt(256),
+  //     random.nextInt(256),
+  //   );
+  // }
+
+  // Color getTextColor(Color backgroundColor) {
+  //   double luminance =
+  //       backgroundColor.computeLuminance(); // 0 (dark) to 1 (light)
+  //   return luminance > 0.5
+  //       ? Colors.black
+  //       : Colors.white; // Light bg → black text, Dark bg → white text
+  // }
+
   @override
   void initState() {
     context.read<GoalsCubit>().fetchGoals();
@@ -57,32 +78,49 @@ class _GoalsViewState extends State<GoalsView> {
                       itemCount: goals.length,
                       itemBuilder: (context, index) {
                         final goal = goals[index];
-                        return ListTile(
-                          onTap: () => context.pushNamed(RouteNames.editGoal,
-                              extra: goal),
-                          title: Column(
-                            children: [
-                              Text(goal.title.toUpperCase(),
-                                  // textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.bold,
 
-                                        // color: AppColor.appColor,
-                                      )),
-                              const SizedBox(
-                                height: 10,
-                              )
-                            ],
+                        // Generate random background color
+
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: index.isEven
+                                ? const Color(0xFF474787)
+                                : const Color(0xFF2C2C54),
                           ),
-                          subtitle: Text(goal.description),
-                          leading: CircleAvatar(
-                            radius: 10,
-                            backgroundColor: goal.isCompleted
-                                ? AppColor.snackBarGreen
-                                : AppColor.snackBarRed,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 20),
+                          child: ListTile(
+                            onTap: () => context.pushNamed(RouteNames.editGoal,
+                                extra: goal),
+                            title: Column(
+                              children: [
+                                Text(goal.title.toUpperCase(),
+                                    textAlign: TextAlign.start,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+
+                                          // color: AppColor.appColor,
+                                        )),
+                                const SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            ),
+                            subtitle: Text(
+                              goal.description,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 16),
+                            ),
+                            leading: CircleAvatar(
+                              radius: 10,
+                              backgroundColor: goal.isCompleted
+                                  ? AppColor.snackBarGreen
+                                  : AppColor.snackBarRed,
+                            ),
                           ),
                         );
                       },
