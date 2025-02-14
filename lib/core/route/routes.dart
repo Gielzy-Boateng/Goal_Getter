@@ -6,6 +6,7 @@ import 'package:goal_getter_app/features/auth/view/register_view.dart';
 import 'package:goal_getter_app/features/goals/view/add_edit_goals_view.dart';
 import 'package:goal_getter_app/features/goals/view/goals_view.dart';
 import 'package:goal_getter_app/features/profile/profile_view.dart';
+import 'package:goal_getter_app/features/splash/view/home_page.dart';
 import 'package:goal_getter_app/features/splash/view/splashview.dart';
 
 final GoRouter router = GoRouter(routes: [
@@ -38,6 +39,11 @@ final GoRouter router = GoRouter(routes: [
     path: '/profileView',
     name: RouteNames.profileView,
     builder: (context, state) => const ProfileView(),
+  ),
+  GoRoute(
+    path: '/homePage',
+    name: RouteNames.homePage,
+    builder: (context, state) => const HomePage(),
   ),
   GoRoute(
       path: '/editGoal',

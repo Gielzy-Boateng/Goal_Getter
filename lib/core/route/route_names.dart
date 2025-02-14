@@ -6,4 +6,5 @@ class RouteNames {
   static const addGoals = 'addGoals';
   static const editGoal = 'editGoal';
   static const profileView = 'profileView';
+  static const homePage = 'homePage';
 }
